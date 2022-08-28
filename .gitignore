@@ -14,6 +14,7 @@ github-deploy-key*
 xanmanning.k3s*
 # Terraform
 .terraform
+.notes
 .terraform.tfstate*
 terraform.tfstate*
 megalinter-reports
