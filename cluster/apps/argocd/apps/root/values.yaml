@@ -1,0 +1,9 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+repo:
+  url: https://github.com/jjalvare/thishouse.git
+  revision: main
+stacks:
+  - name: cluster/apps/argocd/apps/system
+  - name: cluster/apps/argocd/apps/platform
