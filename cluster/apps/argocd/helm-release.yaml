@@ -193,9 +193,9 @@ spec:
       metrics: *metrics
       # Mount the secrets to the ArgoCD repo server
       volumes:
-        - name: helm-secrets-private-keys
+        - name: sops-age
           secret:
-            secretName: helm-secrets-private-keys
+            secretName: sops-age
         - name: custom-tools
           emptyDir: {}
       volumeMounts:
