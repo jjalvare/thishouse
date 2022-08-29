@@ -199,8 +199,8 @@ spec:
         - name: custom-tools
           emptyDir: {}
       volumeMounts:
-        - mountPath: /helm-secrets-private-keys/
-          name: helm-secrets-private-keys
+        - mountPath: /sops-age/
+          name: sops-age
         - mountPath: /custom-tools
           name: custom-tools
 
