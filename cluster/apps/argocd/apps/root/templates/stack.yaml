@@ -9,8 +9,8 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: {{ $.Values.gitops.repo }}
-        revision: {{ $.Values.gitops.revision }}
+        repoURL: {{ $.Values.repo.url }}
+        revision: {{ $.Valuess.repo.revision }}
         directories:
           - path: {{ $stack.name }}/*
   template:
@@ -22,9 +22,9 @@ spec:
         namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
       project: default # TODO
       source:
-        repoURL: {{ $.Values.gitops.repo }}
+        repoURL: {{ $.Values.repo.url }}
         path: '{{ `{{path}}` }}'
-        targetRevision: {{ $.Values.gitops.revision }}
+        targetRevision: {{ $.Values.repo.revision }}
       syncPolicy:
         automated:
           prune: true
