@@ -120,7 +120,7 @@ spec:
           namespace: argocd
           additionalLabels: {}
           additionalAnnotations: {}
-          description: ArgoCD Project
+          description: Root Application Project
           sourceRepos:
             - "*"
           destinations:
