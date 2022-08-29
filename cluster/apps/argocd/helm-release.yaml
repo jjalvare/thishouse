@@ -246,17 +246,11 @@ spec:
           value: "false"
         - name: HELM_SECRETS_VALUES_ALLOW_PATH_TRAVERSAL
           value: "false"
-      # volumes:
-      #   - name: custom-tools
-      #     emptyDir: {}
-      # volumeMounts:
-      #   - mountPath: /custom-tools
-      #     name: custom-tools
 
       initContainers:
         - name: download-tools
           image: alpine:latest
-          command: [sh, -ec]
+          command: [sh, -c]
           env:
             - name: HELM_SECRETS_VERSION
               value: "3.12.0"
@@ -268,12 +262,15 @@ spec:
               value: "1.22.4"
             - name: KUBECTL_ARCH
               value: "linux/arm64"
+            - name: AVP_VERSION
+              value: "1.7.0"
           args:
             - |
               mkdir -p /custom-tools/helm-plugins
               wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
               wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.${SOPS_ARCH}
               wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${KUBECTL_ARCH}/kubectl
+              wget -qO /custom-tools/argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64
               chmod +x /custom-tools/*
           volumeMounts:
             - mountPath: /custom-tools
