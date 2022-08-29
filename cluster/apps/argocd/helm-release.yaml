@@ -219,7 +219,7 @@ spec:
           value: /.config
         # ksops: Points SOPS_AGE_KEY_FILE to key.txt for decryption with ksops
         - name: SOPS_AGE_KEY_FILE
-          value: /helm-secrets-private-keys/key.txt
+          value: /sops-age/age.agekey
 
         - name: HELM_PLUGINS
           value: /custom-tools/helm-plugins/
