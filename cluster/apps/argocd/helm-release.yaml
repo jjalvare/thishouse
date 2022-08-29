@@ -16,10 +16,31 @@ spec:
         namespace: flux-system
       interval: 15m
   values:
+    configs:
+      repositories:
+        - type: git
+          name: thishouse
+          url: https://github.com/jjalvare/thishouse.git
+        - type: helm
+          name: argo-cd
+          url: https://argoproj.github.io/argo-helm
+        - type: helm
+          name: bitnami
+          url: https://charts.bitnami.com/bitnami
+        - type: helm
+          name: jetstack
+          url: https://charts.jetstack.io
+      helm.valuesFileSchemes: >-
+        secrets+gpg-import, secrets+gpg-import-kubernetes,
+        secrets+age-import, secrets+age-import-kubernetes,
+        secrets,
+        https
     server:
       extraArgs:
         - --insecure
       config:
+
+        kustomize.buildOptions: "--enable-alpha-plugins"
         statusbadge.enabled: 'true'
         resource.customizations.health.argoproj.io_Application: |
           hs = {}
@@ -34,6 +55,105 @@ spec:
             end
           end
           return hs
+      additionalApplications:
+        # Self-managed ArgoCD
+        # - name: argo-cd
+        #   namespace: argocd
+        #   destination:
+        #     namespace: argocd
+        #     server: https://kubernetes.default.svc
+        #   project: argocd
+        #   source:
+        #     path: charts/argo-cd
+        #     # This repo
+        #     repoURL: https://github.com/jjalvare/thishouse.git
+        #     targetRevision: HEAD
+        #   syncPolicy:
+        #     automated:
+        #       prune: true
+        #       selfHeal: true
+          #   syncOptions:
+          #   - CreateNamespace=true
+
+        # Root app of apps `/apps`
+        - name: root
+          namespace: argocd
+          destination:
+            namespace: argocd
+            server: https://kubernetes.default.svc
+          project: default
+          source:
+            path: cluster/apps/argocd/
+            repoURL: https://github.com/jjalvare/thishouse.git
+            targetRevision: HEAD
+          syncPolicy:
+            automated:
+              selfHeal: true
+              prune: true
+
+        # Root app of infra `/infra`
+        # - name: infra
+        #   namespace: argocd
+        #   destination:
+        #     namespace: infra
+        #     server: https://kubernetes.default.svc
+        #   project: infra
+        #   source:
+        #     path: infra
+        #     repoURL: https://github.com/jjalvare/thishouse.git
+        #     targetRevision: HEAD
+        #     helm:
+        #       valueFiles:
+        #         # Method 1: Mount the gpg/age key from a kubernetes secret as volume
+        #         # secrets+gpg-import://<key-volume-mount>/<key-name>.asc?<relative/path/to/the/encrypted/secrets.yaml>
+        #         # secrets+age-import://<key-volume-mount>/<key-name>.txt?<relative/path/to/the/encrypted/secrets.yaml>
+        #         # Example Method 1: (Assumptions: key-volume-mount=/helm-secrets-private-keys, key-name=key, secrets.yaml is in the templates folder)
+        #         - secrets+age-import:///helm-secrets-private-keys/key.txt?secret-values.enc.yaml
+        #   syncPolicy:
+        #     automated:
+        #       selfHeal: true
+        #       prune: true
+        #     syncOptions:
+        #       - CreateNamespace=true
+
+      additionalProjects:
+        - name: root
+          namespace: argocd
+          additionalLabels: {}
+          additionalAnnotations: {}
+          description: ArgoCD Project
+          sourceRepos:
+            - "*"
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+          orphanedResources:
+            warn: false
+
+        # - name: infra
+        #   namespace: argocd
+        #   additionalLabels: {}
+        #   additionalAnnotations: {}
+        #   description: Infrastructure Project
+        #   sourceRepos:
+        #     - "*"
+        #   destinations:
+        #     - namespace: argocd
+        #       server: https://kubernetes.default.svc
+        #     - namespace: infra
+        #       server: https://kubernetes.default.svc
+        #     - namespace: kube-system
+        #       server: https://kubernetes.default.svc
+        #     - namespace: cert-manager
+        #       server: https://kubernetes.default.svc
+        #   clusterResourceWhitelist:
+        #     - group: "*"
+        #       kind: "*"
+        #   orphanedResources:
+        #     warn: false
       ingress:
         enabled: true
         ingressClassName: nginx
@@ -55,6 +175,17 @@ spec:
     controller:
       metrics: *metrics
     repoServer:
+      # This allows reading secrets in the same namespace
+      serviceAccount:
+        create: true
+        name: argocd-repo-server
+
+      rbac:
+        - apiGroups:
+            - resources:
+                - secrets
+              verbs:
+                - get
       metrics: *metrics
     redis:
       metrics: *metrics
