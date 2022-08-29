@@ -4,3 +4,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm-release.yaml
+configMapGenerator:
+- name: argocd-values
+  namespace: argocd
+  files:
+  - values.yaml

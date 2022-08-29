@@ -22,5 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 5
-  values:
-    - values.yaml
+  valuesFrom:
+    - kind: ConfigMap
+      name: argocd-values
+      valuesKey: values.yaml
+      optional: false
