@@ -5,5 +5,7 @@ repo:
   url: https://github.com/jjalvare/thishouse.git
   revision: main
 stacks:
-  - name: cluster/apps/argocd/apps/system
-  - name: cluster/apps/argocd/apps/platform
+  - name: system
+    path: "cluster/apps/argocd/apps/system"
+  - name: platform
+    path: "cluster/apps/argocd/apps/platform"
