@@ -35,6 +35,11 @@ tasks:
     cmds:
       - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-installation.yml
 
+  kubeconfig:
+    desc: Copy Kubernetes from the nodes
+    dir: provision/ansible
+    cmds:
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-kubeconfig.yml
   nuke:
     desc: Uninstall Kubernetes on the nodes
     dir: provision/ansible
