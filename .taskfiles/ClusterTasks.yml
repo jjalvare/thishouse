@@ -15,18 +15,19 @@ tasks:
       - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
       - kubectl apply --kustomize {{.CLUSTER_DIR}}/flux/flux-system/
       - task: reconcile
-      - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n argocd create secret generic sops-age --from-file=age.agekey=/dev/stdin
+      - task: argocd-secrets
     preconditions:
       - sh: test -f {{.SOPS_AGE_KEY_FILE}}
         msg: |
           Age key file is not found. Did you forget to create it?
     vars:
       SOPS_AGE_KEY_FILE: ~/.config/sops/age/keys.txt
-  argocd-secret:
+  argocd-secrets:
     # TODO remove after move to new cd-system namespace to be shared by all CD systems
-    desc: Add argocd secret
+    desc: Add argocd secrets
     cmds:
       - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n argocd create secret generic sops-age --from-file=age.agekey=/dev/stdin
+      - kubectl get secret cluster-secrets --namespace=flux-system -oyaml | grep -v "^\s*namespace:\s\|.*kustomize\.*\|.*labels:"| kubectl apply --namespace=argocd -f -
     preconditions:
       - sh: test -f {{.SOPS_AGE_KEY_FILE}}
         msg: |

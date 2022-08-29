@@ -190,17 +190,24 @@ spec:
         verbs:
         # yamllint disable-line rule:indentation
         - get
+      clusterAdminAccess:
+        enabled: true
       metrics: *metrics
       # Mount the secrets to the ArgoCD repo server
       volumes:
         - name: sops-age
           secret:
             secretName: sops-age
+        - name: cluster-secrets
+          secret:
+            secretName: cluster-secrets
         - name: custom-tools
           emptyDir: {}
       volumeMounts:
         - mountPath: /sops-age/
           name: sops-age
+        - mountPath: /cluster-secrets/
+          name: cluster-secrets
         - mountPath: /custom-tools
           name: custom-tools
 
@@ -221,6 +228,9 @@ spec:
         - name: SOPS_AGE_KEY_FILE
           value: /sops-age/age.agekey
 
+        # ksops: Points SOPS_AGE_KEY_FILE to key.txt for decryption with ksops
+        - name: CLUSTER_SECRETS_SECRET_DOMAIN
+          value: /cluster-secrets/SECRET_DOMAIN
         - name: HELM_PLUGINS
           value: /custom-tools/helm-plugins/
         # In case wrapper scripts are used, HELM_SECRETS_HELM_PATH needs to be the path of the real helm binary
