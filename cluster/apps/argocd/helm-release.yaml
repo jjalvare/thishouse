@@ -23,13 +23,14 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
           hajimari.io/appName: ArgoCD
+          hajimari.io/enable: "true"
           hajimari.io/icon: robot
         hosts:
-          - "argocd.${SECRET_DOMAIN}"
+          - &host "argocd.${SECRET_DOMAIN}"
         tls:
           - secretName: argocd-tls-certificate
             hosts:
-              - "argocd.${SECRET_DOMAIN}"
+              - *host
       metrics: &metrics
         enabled: true
     dex:
