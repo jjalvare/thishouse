@@ -10,7 +10,7 @@ spec:
   generators:
     - git:
         repoURL: {{ $.Values.repo.url }}
-        revision: {{ $.Valuess.repo.revision }}
+        revision: {{ $.Values.repo.revision }}
         directories:
           - path: {{ $stack.name }}/*
   template:
