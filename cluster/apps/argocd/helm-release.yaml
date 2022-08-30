@@ -220,7 +220,7 @@ spec:
           subPath: ksops
       envFrom:
         - secretRef:
-            name: SECRET_DOMAIN
+            name: cluster-secrets
       env:
         # ksops: Set the XDG_CONFIG_HOME env variable to allow kustomize to detect the plugin
         - name: XDG_CONFIG_HOME
@@ -228,10 +228,7 @@ spec:
         # ksops: Points SOPS_AGE_KEY_FILE to key.txt for decryption with ksops
         - name: SOPS_AGE_KEY_FILE
           value: /sops-age/age.agekey
-
         # ksops: Points SOPS_AGE_KEY_FILE to key.txt for decryption with ksops
-        - name: CLUSTER_SECRETS_SECRET_DOMAIN
-          value: /cluster-secrets/SECRET_DOMAIN
         - name: HELM_PLUGINS
           value: /custom-tools/helm-plugins/
         # In case wrapper scripts are used, HELM_SECRETS_HELM_PATH needs to be the path of the real helm binary
