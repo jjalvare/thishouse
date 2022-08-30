@@ -10,7 +10,7 @@ spec:
   ingressClassName: nginx
   rules:
   # yamllint disable-line rule:indentation
-  - host: &host registry.${SECRET_DOMAIN}
+  - host: &host "registry.${ .Env.SECRET_DOMAIN }"
     http:
       paths:
   # yamllint disable-line rule:indentation

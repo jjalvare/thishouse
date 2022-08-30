@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: '{{ `{{path.basename}}` }}'
+  namespace: {{ .Release.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.argocd.project }}
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: {{ .Release.namespace }}
+  source:
+    helm:
+      releaseName: trow
+      values: |
+        trow:
+          domain: "registry.${ .Env.SECRET_DOMAIN }"
+          validation:
+            enabled: false
+            allowDocker: false
+            allowKubernetes: true
+            allowPrefixes: []
+            allowImages: []
+            disallowLocalPrefixes: []
+            disallowLocalImages: []
+            proxyDockerHub: false
