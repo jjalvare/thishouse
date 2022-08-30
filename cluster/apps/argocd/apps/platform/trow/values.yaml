@@ -1,6 +1,8 @@
+---
+domain: somedomain
 trow:
   trow:
-    domain: registry.$__env{SECRET_DOMAIN}
+    domain: registry.
     # user: user
     # password: password
     validation:
@@ -20,7 +22,7 @@ trow:
       nginx.ingress.kubernetes.io/proxy-body-size: '0'
       hajimari.io/enable: 'false'
     hosts:
-      - host: &host registry.$__env{SECRET_DOMAIN}
+      - host: &host registry.
         paths:
           - /
     tls:
