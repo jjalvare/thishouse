@@ -218,7 +218,9 @@ spec:
         - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
           name: custom-tools
           subPath: ksops
-
+      envFrom:
+        - secretRef:
+            name: SECRET_DOMAIN
       env:
         # ksops: Set the XDG_CONFIG_HOME env variable to allow kustomize to detect the plugin
         - name: XDG_CONFIG_HOME
