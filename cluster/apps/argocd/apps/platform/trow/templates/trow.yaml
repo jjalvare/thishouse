@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: platform
   syncPolicy:
     automated:
       selfHeal: true
@@ -17,6 +17,9 @@ spec:
     name: in-cluster
     namespace: {{ .Release.namespace }}
   source:
+    chart: trow
+    repoURL: https://trow.io
+    targetRevision: 0.3.5
     helm:
       releaseName: trow
       values: |
