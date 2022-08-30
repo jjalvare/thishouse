@@ -24,7 +24,7 @@ spec:
       releaseName: trow
       values: |
         trow:
-          domain: "registry.${ .Env.SECRET_DOMAIN }"
+          domain: "registry."{{ .Env.SECRET_DOMAIN }
           validation:
             enabled: false
             allowDocker: false

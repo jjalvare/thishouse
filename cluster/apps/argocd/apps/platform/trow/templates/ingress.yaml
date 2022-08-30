@@ -1,3 +1,4 @@
+# yamllint disable-file
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -10,7 +11,7 @@ spec:
   ingressClassName: nginx
   rules:
   # yamllint disable-line rule:indentation
-  - host: &host "registry.${ .Env.SECRET_DOMAIN }"
+  - host: &host "registry."{{ .Env.SECRET_DOMAIN }}
     http:
       paths:
   # yamllint disable-line rule:indentation
