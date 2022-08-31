@@ -56,6 +56,29 @@ spec:
             end
           end
           return hs
+        configManagementPlugins: |
+          - name: argocd-vault-plugin
+            init:
+              command:
+                - 'sh'
+                - '-c'
+                - |
+                  if test -e Chart.yaml; then
+                    helm dependency build
+                  fi
+            generate:
+              command:
+                - 'sh'
+                - '-c'
+                - |
+                  BASENAME=`basename $PWD`
+                  if test -e Chart.yaml; then
+                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME .
+                  elif test -e kustomization.yaml; then
+                    kustomize build --env domain=$SECRET_DOMAIN  .
+                  else
+                    argocd-vault-plugin generate ./
+                  fi        #
       additionalApplications:
         # Self-managed ArgoCD
         # - name: argo-cd
@@ -155,29 +178,6 @@ spec:
         #       kind: "*"
         #   orphanedResources:
         #     warn: false
-      configManagementPlugins: |
-        - name: argocd-vault-plugin
-          init:
-            command:
-              - 'sh'
-              - '-c'
-              - |
-                if test -e Chart.yaml; then
-                  helm dependency build
-                fi
-          generate:
-            command:
-              - 'sh'
-              - '-c'
-              - |
-                BASENAME=`basename $PWD`
-                if test -e Chart.yaml; then
-                  helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME .
-                elif test -e kustomization.yaml; then
-                  kustomize build --env domain=$SECRET_DOMAIN  .
-                else
-                  argocd-vault-plugin generate ./
-                fi        #
       # ingress:
       #   enabled: true
       #   ingressClassName: nginx
