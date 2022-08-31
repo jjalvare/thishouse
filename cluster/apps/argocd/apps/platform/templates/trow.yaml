@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: '{{ `{{path.basename}}` }}'
-  namespace: {{ .Release.namespace }}
+  name: trow
+  namespace: {{ .Values.global.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: platform
+  project: {{ .Values.global.namespace }}
   syncPolicy:
     automated:
       selfHeal: true
@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: {{ .Release.namespace }}
+    namespace: {{ .Values.global.namespace }}
   source:
     chart: trow
     repoURL: https://trow.io
