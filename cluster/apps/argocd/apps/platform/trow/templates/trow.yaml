@@ -17,14 +17,20 @@ spec:
     name: in-cluster
     namespace: {{ .Release.namespace }}
   source:
+    plugin:
+      name: argocd-vault-plugin
+      envFrom:
+        - secretRef:
+            name: cluster-secrets
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
     helm:
       releaseName: trow
+
       values: |
         trow:
-          domain: "registry."{{ .Env.SECRET_DOMAIN }
+          domain: "registry."{{ .Values.domain }
           validation:
             enabled: false
             allowDocker: false

@@ -7,8 +7,6 @@ metadata:
     hajimari.io/appName: ArgoCD
     hajimari.io/enable: "true"
     hajimari.io/icon: robot
-    meta.helm.sh/release-name: argocd
-    meta.helm.sh/release-namespace: argocd
   generation: 1
   labels:
     app.kubernetes.io/component: server

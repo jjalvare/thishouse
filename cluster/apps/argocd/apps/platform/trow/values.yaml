@@ -1,8 +1,8 @@
 ---
-domain: somedomain
+domain: ""
 trow:
   trow:
-    domain: registry.
+    domain: registry.""
     # user: user
     # password: password
     validation:
@@ -22,7 +22,7 @@ trow:
       nginx.ingress.kubernetes.io/proxy-body-size: '0'
       hajimari.io/enable: 'false'
     hosts:
-      - host: &host registry.
+      - host: &host registry.""
         paths:
           - /
     tls:
