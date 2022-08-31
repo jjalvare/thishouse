@@ -30,7 +30,7 @@ spec:
             - values.yaml
             values: |
               global:
-                domain: {{ .Values.global.domain }}
+                domain: ""
                 namespace: '{{ `{{path.basename}}` }}'
       syncPolicy:
         automated:
