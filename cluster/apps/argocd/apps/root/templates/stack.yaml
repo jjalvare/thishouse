@@ -25,6 +25,13 @@ spec:
         repoURL: {{ $.Values.repo.url }}
         path: '{{ `{{path}}` }}'
         targetRevision: {{ $.Values.repo.revision }}
+        helm:
+            valueFiles:
+            - values.yaml
+            values: |
+              global:
+                domain: {{ .Values.global.domain }}
+                namespace: '{{ `{{path.basename}}` }}'
       syncPolicy:
         automated:
           prune: true
