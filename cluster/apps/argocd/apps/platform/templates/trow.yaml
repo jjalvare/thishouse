@@ -26,7 +26,7 @@ spec:
       releaseName: trow
       values: |
         trow:
-          domain: registry.{{ .Values.domain }}
+          domain: registry.{{ .Values.global.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -42,7 +42,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.{{ .Values.domain }}
+            - host: &host registry.{{ .Values.global.domain }}
               paths:
                 - /
           tls:
