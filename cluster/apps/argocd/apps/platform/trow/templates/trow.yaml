@@ -46,7 +46,7 @@ spec:
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
             hajimari.io/enable: 'false'
           hosts:
-            - host: &host registry.""
+            - host: &host "registry."{{ .Values.domain }}
               paths:
                 - /
           tls:
