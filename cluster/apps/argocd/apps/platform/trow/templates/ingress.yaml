@@ -11,7 +11,7 @@ spec:
   ingressClassName: nginx
   rules:
   # yamllint disable-line rule:indentation
-  - host: &host "registry."{{ .Values.env.SECRET_DOMAIN }}
+  - host: &host "registry."{{ .Values.domain }}
     http:
       paths:
   # yamllint disable-line rule:indentation
