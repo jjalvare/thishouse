@@ -73,11 +73,11 @@ spec:
                 - |
                   BASENAME=`basename $PWD`
                   if test -e Chart.yaml; then
-                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME .
+                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . >> /custom-tools-logs/log.txt 2>&1
                   elif test -e kustomization.yaml; then
-                    kustomize build --env domain=$SECRET_DOMAIN  .
+                    kustomize build --env domain=$SECRET_DOMAIN  . >> /custom-tools-logs/log.txt 2>&1
                   else
-                    argocd-vault-plugin generate ./
+                    argocd-vault-plugin generate ./ >> /custom-tools-logs/log.txt 2>&1
                   fi        #
       additionalApplications:
         # Self-managed ArgoCD
@@ -227,6 +227,8 @@ spec:
             secretName: cluster-secrets
         - name: custom-tools
           emptyDir: {}
+        - name: custom-tools-logs
+          emptyDir: {}
       volumeMounts:
         - mountPath: /sops-age/
           name: sops-age
@@ -234,6 +236,8 @@ spec:
           name: cluster-secrets
         - mountPath: /custom-tools
           name: custom-tools
+        - mountPath: /custom-tools-logs
+          name: custom-tools-logs
 
         # ksops: Mount ksops to kustomize plugin
         - mountPath: /usr/local/bin/kustomize
