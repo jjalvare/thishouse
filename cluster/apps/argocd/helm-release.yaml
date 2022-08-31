@@ -4,6 +4,8 @@ kind: HelmRelease
 metadata:
   name: argocd
   namespace: argocd
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
   interval: 15m
   chart:
@@ -176,20 +178,20 @@ spec:
                 else
                   argocd-vault-plugin generate ./
                 fi        #
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-production
-          hajimari.io/appName: ArgoCD
-          hajimari.io/enable: "true"
-          hajimari.io/icon: robot
-        hosts:
-          - &host "argocd.${SECRET_DOMAIN}"
-        tls:
-          - secretName: argocd-tls-certificate
-            hosts:
-              - *host
+      # ingress:
+      #   enabled: true
+      #   ingressClassName: nginx
+      #   annotations:
+      #     cert-manager.io/cluster-issuer: letsencrypt-production
+      #     hajimari.io/appName: ArgoCD
+      #     hajimari.io/enable: "true"
+      #     hajimari.io/icon: robot
+      #   hosts:
+      #     - &host "argocd.${SECRET_DOMAIN}"
+      #   tls:
+      #     - secretName: argocd-tls-certificate
+      #       hosts:
+      #         - *host
       metrics: &metrics
         enabled: true
     dex:
