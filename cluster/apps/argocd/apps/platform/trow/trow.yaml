@@ -2,13 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: trow
-  namespace: {{ .Values.global.namespace }}
+  namespace: {{ $.Values.global.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.global.namespace }}
+  project: {{ $.Values.global.namespace }}
   syncPolicy:
     automated:
       selfHeal: true
@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: {{ .Values.global.namespace }}
+    namespace: {{ $.Values.global.namespace }}
   source:
     chart: trow
     repoURL: https://trow.io
@@ -26,7 +26,7 @@ spec:
       releaseName: trow
       values: |
         trow:
-          domain: registry.{{ .Values.global.domain }}
+          domain: registry.{{ $.Values.global.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -42,7 +42,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.{{ .Values.global.domain }}
+            - host: &host registry.{{ $.Values.global.domain }}
               paths:
                 - /
           tls:
