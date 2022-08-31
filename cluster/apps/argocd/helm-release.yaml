@@ -291,12 +291,11 @@ spec:
           args:
             - |
               mkdir -p /custom-tools/helm-plugins
-              wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v3.12.0/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
-              wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v3.7.2/sops-v3.7.2.linux.amd64
-              wget -qO /custom-tools/argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.7.0/argocd-vault-plugin_1.7.0_linux_amd64
-              wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v1.22.4/bin/linux/amd64/kubectl
+              wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
+              wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
+              wget -qO /custom-tools/argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64
+              wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
               chmod +x /custom-tools/*
-              cp -rs /custom-tools/ /usr/local/bin/
           volumeMounts:
             - mountPath: /custom-tools
               name: custom-tools
