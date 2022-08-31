@@ -19,6 +19,10 @@ spec:
     name: in-cluster
     namespace: {{ $.Values.global.namespace }}
   source:
+    plugin:
+      env:
+        - name: SECRET_DOMAIN
+          value: $SECRET_DOMAIN
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
