@@ -19,9 +19,9 @@ spec:
   source:
     plugin:
       name: argocd-vault-plugin
-      envFrom:
-        - secretRef:
-            name: cluster-secrets
+      # envFrom:
+        # - secretRef:
+            # name: cluster-secrets
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
