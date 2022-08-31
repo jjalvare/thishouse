@@ -4,7 +4,7 @@ metadata:
   name: '{{ `{{path.basename}}` }}'
   namespace: {{ .Release.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -13,15 +13,12 @@ spec:
     automated:
       selfHeal: true
       prune: true
+    syncOptions:
+      - CreateNamespace=true
   destination:
     name: in-cluster
     namespace: {{ .Release.namespace }}
   source:
-    plugin:
-      name: argocd-vault-plugin
-      # envFrom:
-        # - secretRef:
-            # name: cluster-secrets
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
@@ -29,7 +26,7 @@ spec:
       releaseName: trow
       values: |
         trow:
-          domain: "registry."{{ .Values.domain }}
+          domain: registry.{{ .Values.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -39,5 +36,18 @@ spec:
             disallowLocalPrefixes: []
             disallowLocalImages: []
             proxyDockerHub: false
+        ingress:
+          enabled: false  # TODO https://github.com/ContainerSolutions/trow/issues/282
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-production
+            nginx.ingress.kubernetes.io/proxy-body-size: '0'
+          hosts:
+            - host: &host registry.{{ .Values.domain }}
+              paths:
+                - /
+          tls:
+            - secretName: trow-tls-certificate
+              hosts:
+                - *host
         volumeClaim:
           storageClassName: longhorn
