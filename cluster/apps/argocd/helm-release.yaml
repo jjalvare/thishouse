@@ -243,6 +243,12 @@ spec:
         - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
           name: custom-tools
           subPath: ksops
+        - mountPath: /usr/local/bin/kubectl
+          name: custom-tools
+          subPath: kubectl
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          name: custom-tools
+          subPath: argocd-vault-plugin
       envFrom:
         - secretRef:
             name: cluster-secrets
