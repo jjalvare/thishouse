@@ -20,6 +20,7 @@ spec:
     namespace: {{ $.Values.global.namespace }}
   source:
     plugin:
+      name: argocd-vault-plugin
       env:
         - name: SECRET_DOMAIN
           value: $SECRET_DOMAIN
