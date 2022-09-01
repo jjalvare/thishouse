@@ -58,7 +58,7 @@ spec:
           end
           return hs
         configManagementPlugins: |
-          - name: argocd-vault-plugin
+          - name: gen-plugin
             init:
               command:
                 - 'sh'
