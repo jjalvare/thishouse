@@ -63,6 +63,7 @@ spec:
                 - 'sh'
                 - '-c'
                 - |
+                  echo $(date) >> /custom-tools-logs/log.txt 2>&1
                   if test -e Chart.yaml; then
                     helm dependency build >> /custom-tools-logs/log.txt 2>&1
                   fi
@@ -71,6 +72,7 @@ spec:
                 - 'sh'
                 - '-c'
                 - |
+                  echo $(date) >> /custom-tools-logs/log.txt 2>&1
                   BASENAME=`basename $PWD`
                   if test -e Chart.yaml; then
                     helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . >> /custom-tools-logs/log.txt 2>&1
