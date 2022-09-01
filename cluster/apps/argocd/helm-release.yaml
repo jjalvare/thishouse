@@ -64,7 +64,7 @@ spec:
                 - '-c'
                 - |
                   if test -e Chart.yaml; then
-                    helm dependency build 2>&1 | tee -a   /custom-tools-logs/log.txt
+                    helm dependency build >> /custom-tools-logs/log.txt 2>&1
                   fi
             generate:
               command:
@@ -73,11 +73,11 @@ spec:
                 - |
                   BASENAME=`basename $PWD`
                   if test -e Chart.yaml; then
-                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . 2>&1 | tee -a   /custom-tools-logs/log.txt
+                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . >> /custom-tools-logs/log.txt 2>&1
                   elif test -e kustomization.yaml; then
-                    kustomize build --env domain=$SECRET_DOMAIN  . 2>&1 | tee -a   /custom-tools-logs/log.txt
+                    kustomize build --env domain=$SECRET_DOMAIN  . >> /custom-tools-logs/log.txt 2>&1
                   else
-                    argocd-vault-plugin generate ./ 2>&1 | tee -a   /custom-tools-logs/log.txt
+                    argocd-vault-plugin generate ./ >> /custom-tools-logs/log.txt 2>&1
                   fi        #
       additionalApplications:
         # Self-managed ArgoCD
