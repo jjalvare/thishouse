@@ -38,6 +38,7 @@ spec:
         secrets,
         https
     server:
+      logLevel: "debug"
       extraArgs:
         - --insecure
       config:
@@ -201,6 +202,7 @@ spec:
     controller:
       metrics: *metrics
     repoServer:
+      logLevel: "debug"
       # This allows reading secrets in the same namespace
       serviceAccount:
         create: true
