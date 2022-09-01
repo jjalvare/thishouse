@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cmp-plugin
-  namepsace: argocd
+  namespace: argocd
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 data:
