@@ -233,6 +233,11 @@ spec:
           emptyDir: {}
         - name: custom-tools-logs
           emptyDir: {}
+        - configMap:
+            name: cmp-plugin
+          name: cmp-plugin
+        - emptyDir: {}
+          name: cmp-tmp
       volumeMounts:
         - mountPath: /sops-age/
           name: sops-age
@@ -326,5 +331,25 @@ spec:
           volumeMounts:
             - mountPath: /custom-tools
               name: custom-tools
+      containers:
+        - name: cmp
+          command: [/var/run/argocd/argocd-cmp-server] # Entrypoint should be Argo CD lightweight CMP server i.e. argocd-cmp-server
+          image: busybox # This can be off-the-shelf or custom-built image
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+          volumeMounts:
+            - mountPath: /var/run/argocd
+              name: var-files
+            - mountPath: /home/argocd/cmp-server/plugins
+              name: plugins
+            # Remove this volumeMount if you've chosen to bake the config file into the sidecar image.
+            - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+              subPath: plugin.yaml
+              name: cmp-plugin
+            # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps
+            # mitigate path traversal attacks.
+            - mountPath: /tmp
+              name: cmp-tmp
     redis:
       metrics: *metrics

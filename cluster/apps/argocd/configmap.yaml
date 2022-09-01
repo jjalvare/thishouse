@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmp-plugin
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+data:
+  plugin.yaml: |
+    apiVersion: argoproj.io/v1alpha1
+    kind: ConfigManagementPlugin
+    metadata:
+      name: cmp-plugin
+    spec:
+      version: v1.0
+      init:
+        command:
+          - 'sh'
+          - '-c'
+          - |
+            echo $(date) >> /custom-tools-logs/log.txt 2>&1
+            if test -e Chart.yaml; then
+              helm dependency build >> /custom-tools-logs/log.txt 2>&1
+            fi
+      generate:
+        - 'sh'
+        - '-c'
+        - |
+          echo $(date) >> /custom-tools-logs/log.txt 2>&1
+          BASENAME=`basename $PWD`
+          if test -e Chart.yaml; then
+            helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . >> /custom-tools-logs/log.txt 2>&1
+          elif test -e kustomization.yaml; then
+            kustomize build --env domain=$SECRET_DOMAIN  . >> /custom-tools-logs/log.txt 2>&1
+          else
+            argocd-vault-plugin generate ./ >> /custom-tools-logs/log.txt 2>&1
+          fi
+      discover:
+        fileName: "./templates/*.yaml"
