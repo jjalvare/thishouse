@@ -247,7 +247,9 @@ spec:
           name: custom-tools
         - mountPath: /custom-tools-logs
           name: custom-tools-logs
-
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: plugin.yaml
+          name: cmp-plugin
         # ksops: Mount ksops to kustomize plugin
         - mountPath: /usr/local/bin/kustomize
           name: custom-tools
