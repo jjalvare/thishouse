@@ -82,6 +82,34 @@ spec:
                   else
                     argocd-vault-plugin generate ./ >> /custom-tools-logs/log.txt 2>&1
                   fi        #
+          - name: argocd-lovely-plugin
+            generate:
+              command: ["argocd-lovely-plugin"]
+          - name: argocd-vault-plugin-helm
+            init:
+              command: ["sh", "-c"]
+              args: ["helm dependency build || true"]
+            generate:
+              command: ["sh", "-c"]
+              args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -"]
+          - name: kustomized-helm
+            init:
+              command: ["sh", "-c"]
+              args: ["helm dependency build || true"]
+            generate:
+              command: ["sh", "-c"]
+              args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build"]
+          - name: helm
+            init:
+              command: ["sh", "-c"]
+              args: ["helm dependency build || true"]
+            generate:
+              command: ["sh", "-c"]
+              args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -"]
+          - name: kustomize
+            generate:
+              command: ["sh", "-c"]
+              args: ["kustomize build  ."]
       additionalApplications:
         # Self-managed ArgoCD
         # - name: argo-cd
@@ -254,6 +282,9 @@ spec:
         - mountPath: /usr/local/bin/kustomize
           name: custom-tools
           subPath: kustomize
+        - name: custom-tools
+          mountPath: /usr/local/bin/argocd-lovely-plugin
+          subPath: argocd-lovely-plugin
           # Verify this matches a XDG_CONFIG_HOME=/.config env variable
         - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
           name: custom-tools
@@ -293,6 +324,11 @@ spec:
           value: "false"
 
       initContainers:
+        - name: argocd-lovely-plugin-download
+          image: ghcr.io/crumbhole/argocd-lovely-plugin:0.5.2
+          volumeMounts:
+            - mountPath: /custom-tools
+              name: custom-tools
         - name: download-tools
           image: alpine:latest
           command: [sh, -c]
