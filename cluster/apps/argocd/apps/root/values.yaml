@@ -10,6 +10,12 @@ spec:
 repo:
   url: https://github.com/jjalvare/thishouse.git
   revision: main
+system:
+  enabled: true
+  revision: main
+platform:
+  enabled: true
+  revision: main
 stacks:
   - name: system
     enabled: true
