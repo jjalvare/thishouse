@@ -1,0 +1,25 @@
+---
+domain: ""
+repoURL: https://github.com/jjalvare/thishouse
+env: "prod"
+global:
+  domain: ""
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+repo:
+  url: https://github.com/jjalvare/thishouse.git
+  revision: main
+stacks:
+  - name: system
+    enabled: true
+    targetRevision: main
+    path: "cluster/apps/argocd/apps/system"
+    selfHeal: false
+    prune: false
+  - name: platform
+    path: "cluster/apps/argocd/apps/platform"
+    selfHeal: false
+    prune: false
+    enabled: true
+    targetRevision: main
