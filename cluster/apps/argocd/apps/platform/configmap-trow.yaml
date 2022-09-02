@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: trow-cm-configuration
-data:
-  configuration.yml: |-
-    domain: {{ .Values.domain }}
