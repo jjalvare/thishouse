@@ -1,0 +1,54 @@
+# yamllint disable-file
+{{- range $index, $stack := .Values.stacks }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $stack.name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  generators:
+    - git:
+        repoURL: {{ $.Values.repo.url }}
+        revision: {{ $.Values.repo.revision }}
+        directories:
+          - path: {{ $stack.path }}/*
+  template:
+    metadata:
+      name: '{{ `{{path.basename}}` }}'
+    spec:
+      destination:
+        name: in-cluster
+        namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
+      project: default
+      source:
+        plugin:
+          name: gen-plugin
+          env:
+            - name: SECRET_DOMAIN
+              value: $SECRET_DOMAIN
+        repoURL: {{ $.Values.repo.url }}
+        path: '{{ `{{path}}` }}'
+        targetRevision: {{ $.Values.repo.revision }}
+        helm:
+            valueFiles:
+            - {{ $stack.path }}/values-{{ $.Values.env }}.yaml
+            - '{{ $stack.path }}/{{ `{{path.basename}}` }}/values-{{ $.Values.env }}.yaml'
+            # values: |
+              # global:
+                # domain: ""
+                # namespace: '{{ `{{path.basename}}` }}'
+      syncPolicy:
+        automated:
+          prune: {{ $stack.prune }}
+          selfHeal: {{ $stack.selfHeal }}
+        retry:
+          limit: 10
+          backoff:
+            duration: 1m
+            factor: 2
+            maxDuration: 16m
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+{{- end }}
