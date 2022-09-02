@@ -2,6 +2,7 @@
 domain: ""
 repoURL: https://github.com/jjalvare/thishouse
 env: "prod"
+namespace: argocd
 global:
   domain: ""
 spec:
