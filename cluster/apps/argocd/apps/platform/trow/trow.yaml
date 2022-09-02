@@ -2,13 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: trow
-  namespace: {{ $.Values.namespace }}
+  namespace: {{ .Values.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ $.Values.namespace }}
+  project: {{ .Values.namespace }}
   syncPolicy:
     automated:
       selfHeal: true
@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: {{ $.Values.namespace }}
+    namespace: {{ .Values.namespace }}
   source:
     plugin:
       name: gen-plugin
@@ -33,7 +33,7 @@ spec:
         - values-prod.yaml
       values: |
         trow:
-          domain: registry.{{ $.Values.domain }}
+          domain: registry.{{ .Values.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -49,7 +49,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.{{ $.Values.domain }}
+            - host: &host registry.{{ .Values.domain }}
               paths:
                 - /
           tls:
