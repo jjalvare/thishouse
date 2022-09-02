@@ -110,6 +110,10 @@ spec:
             generate:
               command: ["sh", "-c"]
               args: ["kustomize build  ."]
+          - name: exit
+            generate:
+              command: ["sh", "-c"]
+              args: ["exit 30"]
       additionalApplications:
         # Self-managed ArgoCD
         # - name: argo-cd
