@@ -19,11 +19,11 @@ spec:
     name: in-cluster
     namespace: {{ $.Values.namespace }}
   source:
-    # plugin:
-      # name: cmp-plugin
-      # env:
-        # - name: SECRET_DOMAIN
-          # value: $SECRET_DOMAIN
+    plugin:
+      name: gen-plugin
+      env:
+        - name: SECRET_DOMAIN
+          value: $SECRET_DOMAIN
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
