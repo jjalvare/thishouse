@@ -33,9 +33,6 @@ spec:
         # helm:
         valueFiles:
         - values-{{ $.Values.env }}.yaml
-        values: |
-          domain: ""
-          namespace: $stack.name
       syncPolicy:
         automated:
           prune: {{ $stack.prune }}
