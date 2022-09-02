@@ -22,20 +22,20 @@ spec:
         namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
       project: default
       source:
-        plugin:
-          name: gen-plugin
-          env:
-            - name: SECRET_DOMAIN
-              value: $SECRET_DOMAIN
+        # plugin:
+          # name: gen-plugin
+          # env:
+            # - name: SECRET_DOMAIN
+              # value: $SECRET_DOMAIN
         repoURL: {{ $.Values.repo.url }}
         path: '{{ `{{path}}` }}'
         targetRevision: {{ $.Values.repo.revision }}
-        helm:
-            valueFiles:
-            - values-{{ $.Values.env }}.yaml
-            values: |
-              domain: ""
-              namespace: $stack.name
+        # helm:
+        valueFiles:
+        - values-{{ $.Values.env }}.yaml
+        values: |
+          domain: ""
+          namespace: $stack.name
       syncPolicy:
         automated:
           prune: {{ $stack.prune }}
