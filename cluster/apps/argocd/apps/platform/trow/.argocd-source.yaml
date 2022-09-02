@@ -1,0 +1,6 @@
+---
+plugin:
+  name: gen-plugin
+  env:
+    - name: SECRET_DOMAIN
+      value: $SECRET_DOMAIN
