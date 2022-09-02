@@ -145,6 +145,13 @@ spec:
             path: cluster/apps/argocd/apps/root
             repoURL: https://github.com/jjalvare/thishouse.git
             targetRevision: HEAD
+            helm:
+              valueFiles:
+                # Method 1: Mount the gpg/age key from a kubernetes secret as volume
+                # secrets+gpg-import://<key-volume-mount>/<key-name>.asc?<relative/path/to/the/encrypted/secrets.yaml>
+                # secrets+age-import://<key-volume-mount>/<key-name>.txt?<relative/path/to/the/encrypted/secrets.yaml>
+                # Example Method 1: (Assumptions: key-volume-mount=/helm-secrets-private-keys, key-name=key, secrets.yaml is in the templates folder)
+                - values.yaml
           syncPolicy:
             automated:
               selfHeal: true
@@ -265,9 +272,9 @@ spec:
           emptyDir: {}
         - name: custom-tools-logs
           emptyDir: {}
-        - configMap:
-            name: cmp-plugin
-          name: cmp-plugin
+        # - configMap:
+            # name: cmp-plugin
+          # name: cmp-plugin
         - emptyDir: {}
           name: cmp-tmp
       volumeMounts:
@@ -279,9 +286,9 @@ spec:
           name: custom-tools
         - mountPath: /custom-tools-logs
           name: custom-tools-logs
-        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: plugin.yaml
-          name: cmp-plugin
+        # - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          # subPath: plugin.yaml
+          # name: cmp-plugin
         # ksops: Mount ksops to kustomize plugin
         - mountPath: /usr/local/bin/kustomize
           name: custom-tools
