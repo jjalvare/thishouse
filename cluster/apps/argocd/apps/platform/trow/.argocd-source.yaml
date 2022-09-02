@@ -1,0 +1,5 @@
+plugin:
+  name: exit
+  env:
+    - name: HELM_ARGS
+      value: "--include-crds"
