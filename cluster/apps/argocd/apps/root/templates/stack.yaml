@@ -30,9 +30,6 @@ spec:
         repoURL: {{ $.Values.repo.url }}
         path: '{{ `{{path}}` }}'
         targetRevision: {{ $.Values.repo.revision }}
-        # helm:
-        valueFiles:
-        - values-{{ $.Values.env }}.yaml
       syncPolicy:
         automated:
           prune: {{ $stack.prune }}
