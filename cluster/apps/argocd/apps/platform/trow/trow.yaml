@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: trow
-  namespace: {{ .Values.namespace }}
+  namespace: trow
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   finalizers:
@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: {{ .Values.namespace }}
+    namespace: trow
   source:
     plugin:
       name: gen-plugin
