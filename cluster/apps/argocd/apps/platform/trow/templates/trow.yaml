@@ -19,11 +19,11 @@ spec:
     name: in-cluster
     namespace: {{ $.Values.global.namespace }}
   source:
-    plugin:
-      name: cmp-plugin
-      env:
-        - name: SECRET_DOMAIN
-          value: $SECRET_DOMAIN
+    # plugin:
+      # name: cmp-plugin
+      # env:
+        # - name: SECRET_DOMAIN
+          # value: $SECRET_DOMAIN
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
@@ -31,7 +31,7 @@ spec:
       releaseName: trow
       values: |
         trow:
-          domain: registry.{{ $.Values.global.domain }}
+          domain: registry.{{ $.Values.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -47,7 +47,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.{{ $.Values.global.domain }}
+            - host: &host registry.{{ $.Values.domain }}
               paths:
                 - /
           tls:
