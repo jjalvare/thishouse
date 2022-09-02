@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.namespace }}
+  project: platform
   syncPolicy:
     automated:
       selfHeal: true
