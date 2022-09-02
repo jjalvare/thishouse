@@ -32,7 +32,7 @@ spec:
         targetRevision: {{ $.Values.repo.revision }}
         helm:
             valueFiles:
-            - {{ $.Values.env }}.yaml
+            - values-{{ $.Values.env }}.yaml
             # values: |
               # global:
                 # domain: ""
