@@ -20,7 +20,7 @@ spec:
     namespace: {{ $.Values.namespace }}
   source:
     plugin:
-      name: cmp-plugin
+      name: argocd-vault-plugin-helm
       env:
         - name: SECRET_DOMAIN
           value: $SECRET_DOMAIN
