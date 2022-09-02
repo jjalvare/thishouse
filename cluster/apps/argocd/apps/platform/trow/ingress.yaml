@@ -20,7 +20,7 @@ spec:
           service:
             name: trow
             port:
-              number: {{ .Values.trow.service.port }}
+              number: 8083
   tls:
   # yamllint disable-line
   - hosts:
