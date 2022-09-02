@@ -32,8 +32,7 @@ spec:
         targetRevision: {{ $.Values.repo.revision }}
         helm:
             valueFiles:
-            - {{ $stack.path }}/values-{{ $.Values.env }}.yaml
-            - '{{ $stack.path }}/{{ `{{path.basename}}` }}/values-{{ $.Values.env }}.yaml'
+            - {{ $.Values.env }}.yaml
             # values: |
               # global:
                 # domain: ""
