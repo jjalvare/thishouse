@@ -145,11 +145,6 @@ spec:
             path: cluster/apps/argocd/apps/root
             repoURL: https://github.com/jjalvare/thishouse.git
             targetRevision: HEAD
-            plugin:
-              name: gen-plugin
-              env:
-                - name: SECRET_DOMAIN
-                  value: $SECRET_DOMAIN
             helm:
               valueFiles:
                 # Method 1: Mount the gpg/age key from a kubernetes secret as volume
