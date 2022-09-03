@@ -107,8 +107,6 @@ spec:
                 - |
                   for file in `find . -type f`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build
-              # command: ["sh", "-c"]
-              # args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build"]
           - name: helm
             init:
               command: ["sh", "-c"]
