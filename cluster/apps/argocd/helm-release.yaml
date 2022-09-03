@@ -106,7 +106,7 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; envsubst < ${file}.backup > $file; cat $file;done
                   helm dependency build || true
             generate:
               command:
