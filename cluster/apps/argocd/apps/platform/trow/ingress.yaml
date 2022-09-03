@@ -10,7 +10,7 @@ spec:
   ingressClassName: nginx
   rules:
   # yamllint disable-line
-  - host: &host registry.${SECRET_DOMAIN}
+  - host: &host registry.{{ .Values.domain }}
     http:
       paths:
       # yamllint disable-line
