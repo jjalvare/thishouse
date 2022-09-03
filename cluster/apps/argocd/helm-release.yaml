@@ -87,10 +87,8 @@ spec:
               command: ["argocd-lovely-plugin"]
           - name: argocd-vault-plugin-helm
             init:
-                - 'sh'
-                - '-c'
-                - |
-                  helm dependency build || true
+              command: ["sh", "-c"]
+              args: ["helm dependency build || true"]
             generate:
               command:
                 - 'sh'
