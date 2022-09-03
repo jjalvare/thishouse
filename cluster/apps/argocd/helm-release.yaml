@@ -91,14 +91,14 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   helm dependency build || true
             generate:
               command:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template  . --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -
           - name: kustomize-helm
             init:
@@ -106,14 +106,14 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; envsubst < ${file}.backup > $file; cat $file;done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file;done
                   helm dependency build || true
             generate:
               command:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; envsubst < ${file}.backup > $file; cat $file;done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file;done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build
           - name: helm
             init:
@@ -121,14 +121,14 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   helm dependency build || true
             generate:
               command:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; envsubst < ${file}.backup > $file; cat $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -
           - name: kustomize
             generate:
@@ -136,7 +136,7 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; mv $file ${file}.backup; envsubst < ${file}.backup > $file; done
+                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   kustomize build --env domain=$SECRET_DOMAIN  .
       additionalApplications:
         # Self-managed ArgoCD
