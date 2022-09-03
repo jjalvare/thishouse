@@ -195,6 +195,8 @@ spec:
         - name: root
           namespace: argocd
           description: Root Application Project
+          additionalLabels: {}
+          additionalAnnotations: {}
           sourceRepos:
             - "*"
           destinations:
