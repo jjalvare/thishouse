@@ -92,7 +92,7 @@ spec:
             generate:
               command: ["sh", "-c"]
               args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template  . --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -"]
-          - name: kustomized-helm
+          - name: kustomize-helm
             init:
               command: ["sh", "-c"]
               args: ["helm dependency build || true"]
