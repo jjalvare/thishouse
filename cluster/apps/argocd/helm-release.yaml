@@ -292,6 +292,9 @@ spec:
         - mountPath: /usr/local/bin/kubectl
           name: custom-tools
           subPath: kubectl
+        - mountPath: /usr/local/bin/envsubst
+          name: custom-tools
+          subPath: envsubst
         - mountPath: /usr/local/bin/argocd-vault-plugin
           name: custom-tools
           subPath: argocd-vault-plugin
@@ -345,6 +348,8 @@ spec:
               value: "linux/amd64"
             - name: AVP_VERSION
               value: "1.7.0"
+            - name: ENVSUBST_VERSION
+              value: "1.2.0"
           args:
             - |
               mkdir -p /custom-tools/helm-plugins
@@ -352,6 +357,7 @@ spec:
               wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
               wget -qO /custom-tools/argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64
               wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+              wget -qO /custom-tools/envsubst https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-`uname -s`-`uname -m` -o envsubst
               chmod +x /custom-tools/*
           volumeMounts:
             - mountPath: /custom-tools
