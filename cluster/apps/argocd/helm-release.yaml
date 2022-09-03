@@ -98,7 +98,7 @@ spec:
                 - 'sh'
                 - '-xc'
                 - |
-                  for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; echo $file; cat $file >> /custom-tools-logs/log.txt; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
+                  for file in `find . -type f -name "*.yaml"`; do [ -f $file ] || continue; echo $file; cat $file >> /custom-tools-logs/log.txt; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file; done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template  . --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -
           - name: kustomize-helm
             init:
@@ -106,7 +106,7 @@ spec:
                 - 'sh'
                 - '-c'
                 - |
-                  files=$(find . -type f -name *.yaml)
+                  files=$(find . -type f -name "*.yaml")
                   echo $files >> /custom-tools-logs/log.txt
                   for file in $files; do  echo $file; cat $file >> /custom-tools-logs/log.txt; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt;done
                   helm dependency build || true
@@ -115,6 +115,7 @@ spec:
                 - 'sh'
                 - '-c'
                 - |
+                  files=$(find . -type f -name "*.yaml")
                   echo $files >> /custom-tools-logs/log.txt
                   for file in $files; do echo $file >>  /custom-tools-logs/log.txt; cat $file >> /custom-tools-logs/log.txt ; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt;done
                   echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build
