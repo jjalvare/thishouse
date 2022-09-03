@@ -1,6 +1,6 @@
 ---
 plugin:
-  name: kustomize-helm
+  name: argocd-lovely-plugin
   env:
     - name: SECRET_DOMAIN
       value: $SECRET_DOMAIN
