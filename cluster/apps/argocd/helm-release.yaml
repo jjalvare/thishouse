@@ -66,7 +66,7 @@ spec:
                 - |
                   echo $(date) >> /custom-tools-logs/log.txt 2>&1
                   if test -e Chart.yaml; then
-                    helm dependency build >> /custom-tools-logs/log.txt 2>&1
+                    helm dependency build
                   fi
             generate:
               command:
@@ -76,11 +76,11 @@ spec:
                   echo $(date) >> /custom-tools-logs/log.txt 2>&1
                   BASENAME=`basename $PWD`
                   if test -e Chart.yaml; then
-                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME . >> /custom-tools-logs/log.txt 2>&1
+                    helm template --set domain=$SECRET_DOMAIN --include-crds $BASENAME --namespace $BASENAME .
                   elif test -e kustomization.yaml; then
-                    kustomize build --env domain=$SECRET_DOMAIN  . >> /custom-tools-logs/log.txt 2>&1
+                    kustomize build --env domain=$SECRET_DOMAIN  .
                   else
-                    argocd-vault-plugin generate ./ >> /custom-tools-logs/log.txt 2>&1
+                    argocd-vault-plugin generate ./
                   fi        #
           - name: argocd-lovely-plugin
             generate:
