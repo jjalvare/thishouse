@@ -141,12 +141,6 @@ spec:
             path: cluster/apps/argocd/apps/root
             repoURL: https://github.com/jjalvare/thishouse.git
             targetRevision: HEAD
-            valueFiles:
-              # Method 1: Mount the gpg/age key from a kubernetes secret as volume
-              # secrets+gpg-import://<key-volume-mount>/<key-name>.asc?<relative/path/to/the/encrypted/secrets.yaml>
-              # secrets+age-import://<key-volume-mount>/<key-name>.txt?<relative/path/to/the/encrypted/secrets.yaml>
-              # Example Method 1: (Assumptions: key-volume-mount=/helm-secrets-private-keys, key-name=key, secrets.yaml is in the templates folder)
-              - values.yaml
           syncPolicy:
             automated:
               selfHeal: true
