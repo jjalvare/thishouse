@@ -104,7 +104,7 @@ spec:
             init:
               command:
                 - 'sh'
-                - '-exc'
+                - '-c'
                 - |
                   files=$(find . -type f -name *.yaml)
                   echo $files >> /custom-tools-logs/log.txt
@@ -113,7 +113,7 @@ spec:
             generate:
               command:
                 - 'sh'
-                - '-exc'
+                - '-c'
                 - |
                   echo $files >> /custom-tools-logs/log.txt
                   for file in $files; do echo $file >>  /custom-tools-logs/log.txt; cat $file >> /custom-tools-logs/log.txt ; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt;done
@@ -122,7 +122,7 @@ spec:
             init:
               command:
                 - 'sh'
-                - '-xc'
+                - '-c'
                 - |
                   for file in `find . -type f -name *.yaml`; do [ -f $file ] || continue; cat $file >> /custom-tools-logs/log.txt; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt; done
                   helm dependency build || true
