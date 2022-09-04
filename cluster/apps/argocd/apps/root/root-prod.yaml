@@ -27,7 +27,7 @@ spec:
     targetRevision: main
     helm:
       valueFiles:
-        - values-prod.yaml
+        - values.yaml
       values: |
         argocd:
           targetRevision: main

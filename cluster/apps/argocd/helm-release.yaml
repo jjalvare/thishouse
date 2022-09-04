@@ -178,7 +178,7 @@ spec:
           destination:
             namespace: argocd
             server: https://kubernetes.default.svc
-          project: default
+          project: root
           source:
             path: cluster/apps/argocd/apps/root
             repoURL: https://github.com/jjalvare/thishouse.git
@@ -230,27 +230,36 @@ spec:
           orphanedResources:
             warn: false
 
-        # - name: infra
-        #   namespace: argocd
-        #   additionalLabels: {}
-        #   additionalAnnotations: {}
-        #   description: Infrastructure Project
-        #   sourceRepos:
-        #     - "*"
-        #   destinations:
-        #     - namespace: argocd
-        #       server: https://kubernetes.default.svc
-        #     - namespace: infra
-        #       server: https://kubernetes.default.svc
-        #     - namespace: kube-system
-        #       server: https://kubernetes.default.svc
-        #     - namespace: cert-manager
-        #       server: https://kubernetes.default.svc
-        #   clusterResourceWhitelist:
-        #     - group: "*"
-        #       kind: "*"
-        #   orphanedResources:
-        #     warn: false
+        - name: system
+          namespace: argocd
+          additionalLabels: {}
+          additionalAnnotations: {}
+          description: System Project
+          sourceRepos:
+            - "*"
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+          orphanedResources:
+            warn: false
+        - name: platform
+          namespace: argocd
+          additionalLabels: {}
+          additionalAnnotations: {}
+          description: Platform Project
+          sourceRepos:
+            - "*"
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+          orphanedResources:
+            warn: false
       # ingress:
       #   enabled: true
       #   ingressClassName: nginx
