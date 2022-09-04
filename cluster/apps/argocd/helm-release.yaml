@@ -393,7 +393,7 @@ spec:
             - |
               set -x
               apk add gettext libintl && \
-              cp /usr/bin/envsubst /custom-tools/envsubst && cp /usr/bin/libintl /custom-tools/libintl
+              cp /usr/local/bin/envsubst /custom-tools/envsubst && cp /usr/local/bin/libintl /custom-tools/libintl
               mkdir -p /custom-tools/helm-plugins
               wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
               wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
