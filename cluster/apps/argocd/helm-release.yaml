@@ -392,9 +392,14 @@ spec:
           args:
             - |
               set -x
-              apk add gettext libintl && \
-              cp /usr/local/bin/envsubst /custom-tools/envsubst && cp /usr/local/bin/libintl /custom-tools/libintl
+              # apk add gettext libintl && \
+              # cp /usr/local/bin/envsubst /custom-tools/envsubst && cp /usr/local/bin/libintl /custom-tools/libintl
               mkdir -p /custom-tools/helm-plugins
+              apk add --update $RUNTIME_DEPS && \
+              apk add --virtual build_deps $BUILD_DEPS &&  \
+              cp /usr/bin/envsubst /usr/local/bin/envsubst && \
+              apk del build_deps
+              cp /usr/local/bin/envsubst /custom-tools/envsubst
               wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
               wget -qO /custom-tools/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
               wget -qO /custom-tools/argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64
