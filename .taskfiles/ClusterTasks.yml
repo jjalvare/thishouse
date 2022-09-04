@@ -14,8 +14,8 @@ tasks:
       - kubectl apply --kustomize {{.CLUSTER_DIR}}/bootstrap/
       - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
       - kubectl apply --kustomize {{.CLUSTER_DIR}}/flux/flux-system/
-      - task: reconcile
       - task: argocd-secrets
+      - task: reconcile
     preconditions:
       - sh: test -f {{.SOPS_AGE_KEY_FILE}}
         msg: |
@@ -26,8 +26,9 @@ tasks:
     # TODO remove after move to new cd-system namespace to be shared by all CD systems
     desc: Add argocd secrets
     cmds:
-      - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n argocd create secret generic sops-age --from-file=age.agekey=/dev/stdin
-      - kubectl get secret cluster-secrets --namespace=flux-system -oyaml | grep -v "^\s*namespace:\s\|.*kustomize\.*\|.*labels:"| kubectl apply --namespace=argocd -f -
+      - if ! kubectl get ns argocd;then kubectl create namespace argocd;fi
+      - if ! kubectl get secret -n  argocd sops-age;then cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n argocd create secret generic sops-age --from-file=age.agekey=/dev/stdin ;fi
+      - if ! kubectl get secret -n  argocd cluster-secrets;then kubectl get secret cluster-secrets --namespace=flux-system -oyaml | grep -v "^\s*namespace:\s\|.*kustomize\.*\|.*labels:"| kubectl apply --namespace=argocd -f - ;fi
     preconditions:
       - sh: test -f {{.SOPS_AGE_KEY_FILE}}
         msg: |
