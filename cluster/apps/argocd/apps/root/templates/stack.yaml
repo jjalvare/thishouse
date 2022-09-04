@@ -12,10 +12,13 @@ spec:
         repoURL: {{ $.Values.repo.url }}
         revision: {{ $.Values.repo.revision }}
         directories:
-          - path: {{ $stack.path }}/*
+          - path: "{{ $stack.path }}/{{ $stack.name }}/*"
   template:
     metadata:
       name: '{{ `{{path.basename}}` }}'
+      annotations:
+        argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+        argocd.argoproj.io/manifest-generate-paths: {{ `"{{path}}"` }}
     spec:
       destination:
         name: in-cluster
