@@ -392,8 +392,9 @@ spec:
           args:
             - |
               set -x
-              apk add --update $RUNTIME_DEPS
-              apk add --virtual build_deps $BUILD_DEPS
+              apk --no-cache add gettext
+              # apk add --update $RUNTIME_DEPS
+              # apk add --virtual build_deps $BUILD_DEPS
               cp /usr/bin/envsubst /usr/local/bin/envsubst
               cp /usr/bin/envsubst /custom-tools/envsubst
               cp /usr/bin/libintl /custom-tools/libintl
