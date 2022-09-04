@@ -33,7 +33,7 @@ spec:
         - values-prod.yaml
       values: |
         trow:
-          domain: registry.{{ .Values.domain }}
+          domain: registry.${SECRET_DOMAIN}
           validation:
             enabled: false
             allowDocker: false
@@ -44,12 +44,12 @@ spec:
             disallowLocalImages: []
             proxyDockerHub: false
         ingress:
-          enabled: true  # TODO https://github.com/ContainerSolutions/trow/issues/282
+          enabled: false  # TODO https://github.com/ContainerSolutions/trow/issues/282
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.{{ .Values.domain }}
+            - host: &host registry.${SECRET_DOMAIN}
               paths:
                 - /
           tls:
