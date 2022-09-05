@@ -18,7 +18,7 @@ longhorn:
       nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-production
-        # cert-manager.io/common-name: prom-server.rsr.net
+      cert-manager.io/common-name: longhorn.$SECRET_DOMAIN
         # nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local:80/oauth2/auth"
         # nginx.ingress.kubernetes.io/auth-signin: https://auth.rsr.net/oauth2/start
     hosts: longhorn.$SECRET_DOMAIN
