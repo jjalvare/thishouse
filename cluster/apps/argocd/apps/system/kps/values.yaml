@@ -11,6 +11,8 @@ kube-prometheus-stack:
       limits:
         memory: 2000Mi
   prometheusOperator:
+    tls:
+      enabled: false
     createCustomResource: true
     prometheusConfigReloader:
       resources:
