@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: longhorn-manager
-    namespaceSelector:
-      matchNames:
-        - argocd
+    # namespaceSelector:
+      # matchNames:
+        # - argocd
   endpoints:
     - port: manager
