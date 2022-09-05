@@ -279,8 +279,8 @@ spec:
     dex:
       enabled: false
     controller:
-      extraArgs:
-        - --repo-server-plaintext
+      # extraArgs:
+        # - --repo-server-plaintext
       metrics: *metrics
     repoServer:
       logLevel: "debug"
