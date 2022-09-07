@@ -2,7 +2,7 @@ thisapp: "trow"
 namespace: platform
 trow:
   trow:
-    domain: registry.{{ .Values.domain }}
+    domain: registry.{{ .Values.global.domain }}
     # user: user
     # password: password
     validation:
@@ -22,7 +22,7 @@ trow:
       nginx.ingress.kubernetes.io/proxy-body-size: '0'
       hajimari.io/enable: 'false'
     hosts:
-      - host: &host registry.{{ .Values.domain }}
+      - host: &host registry.{{ .Values.global.domain }}
         paths:
           - /
     tls:

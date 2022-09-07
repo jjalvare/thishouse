@@ -1,6 +1,3 @@
 ---
 plugin:
-  name: kustomize-helm
-  env:
-    - name: SECRET_DOMAIN
-      value: $SECRET_DOMAIN
+  name: helm

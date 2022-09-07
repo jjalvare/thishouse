@@ -20,10 +20,7 @@ spec:
     namespace: trow
   source:
     plugin:
-      name: gen-plugin
-      env:
-        - name: SECRET_DOMAIN
-          value: $SECRET_DOMAIN
+      name: helm
     chart: trow
     repoURL: https://trow.io
     targetRevision: 0.3.5
@@ -33,7 +30,7 @@ spec:
         - values-prod.yaml
       values: |
         trow:
-          domain: registry.${SECRET_DOMAIN}
+          domain: registry.{{ .Values.global.domain }}
           validation:
             enabled: false
             allowDocker: false
@@ -49,7 +46,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-production
             nginx.ingress.kubernetes.io/proxy-body-size: '0'
           hosts:
-            - host: &host registry.${SECRET_DOMAIN}
+            - host: &host registry.{{ .Values.global.domain }}
               paths:
                 - /
           tls:
