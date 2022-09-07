@@ -112,7 +112,6 @@ spec:
                 - |
                   files=$(find . -type f -name "*.yaml")
                   echo $files >> /custom-tools-logs/log.txt
-                  for file in $files; do  echo $file; cat $file >> /custom-tools-logs/log.txt; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt;done
                   helm dependency build || true
             generate:
               command:
@@ -121,8 +120,7 @@ spec:
                 - |
                   files=$(find . -type f -name "*.yaml")
                   echo $files >> /custom-tools-logs/log.txt
-                  for file in $files; do echo $file >>  /custom-tools-logs/log.txt; cat $file >> /custom-tools-logs/log.txt ; mv $file ${file}.backup; SECRET_DOMAIN=$SECRET_DOMAIN envsubst < ${file}.backup > $file; cat $file >> /custom-tools-logs/log.txt;done
-                  echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set domain=$SECRET_DOMAIN --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build
+                  echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set "global.domain=$SECRET_DOMAIN" --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build
           - name: helm
             init:
               command:
