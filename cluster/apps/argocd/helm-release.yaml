@@ -158,7 +158,7 @@ spec:
                 - |
                   files=$(find . -type f -name "*.yaml")
                   echo $files >> /custom-tools-logs/log.txt
-                  echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set "env.domain=$SECRET_DOMAIN" --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -
+                  echo $ARGOCD_ENV_HELM_VALUES | helm template .  --set "global.domain=$SECRET_DOMAIN" --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -
           - name: kustomize
             generate:
               command:
