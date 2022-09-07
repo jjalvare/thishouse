@@ -19,7 +19,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/appName: Grafana
         hajimari.io/icon: chart-bar
-        - grafana.{{ .Values.env.domain }}
+        - "grafana.{{ .Values.env.domain }}"
       tls:
         - secretName: grafana-cert-tls
           hosts:
