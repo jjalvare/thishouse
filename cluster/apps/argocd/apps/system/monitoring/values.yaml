@@ -1,4 +1,6 @@
 # yamllint disable-file
+env:
+  domain: ""
 kube-prometheus-stack:
   grafana:
     fullnameOverride: grafana
@@ -17,7 +19,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/appName: Grafana
         hajimari.io/icon: chart-bar
-        - &host grafana.{{  .Values.env.domain }}
+        - &host grafana.{{ .Values.env.domain }}
       tls:
         - secretName: grafana-cert-tls
           hosts:
