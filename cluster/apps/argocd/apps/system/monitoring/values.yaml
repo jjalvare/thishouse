@@ -1,0 +1,134 @@
+# yamllint disable-file
+global:
+  domain: ""
+kube-prometheus-stack:
+  grafana:
+    fullnameOverride: grafana
+    defaultDashboardsTimezone: America/Chicago
+    persistence:
+      enabled: true
+      type: statefulset
+      storageClassName: longhorn
+      size: 1Gi
+    admin:
+      existingSecret: grafana
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        hajimari.io/appName: Grafana
+        hajimari.io/icon: chart-bar
+      hosts:
+        - grafana.{{ .Values.global.domain }}
+      tls:
+        - secretName: grafana-cert-tls
+          hosts:
+            - grafana.{{ .Values.global.domain }}
+    # additionalDataSources:
+      # - name: Loki
+        # type: loki
+        # url: http://loki.loki:3100
+    sidecar:
+      datasources:
+        enabled: true
+        searchNamespace: ALL
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+        folderAnnotation: grafana_folder
+        provider:
+          foldersFromFilesStructure: true
+          disableDeletion: true
+          allowUiUpdates: true
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+    dashboards:
+      default:
+        longhorn:
+          url: https://grafana.com/api/dashboards/13032/revisions/6/download
+          datasource: Prometheus
+        node-exporter-full:
+          url: https://grafana.com/api/dashboards/1860/revisions/22/download
+          datasource: Prometheus
+        ingress-nginx:
+          url: https://grafana.com/api/dashboards/9614/revisions/1/download
+          datasource: Prometheus
+        ingress-nginx-nextgen:
+          url: https://grafana.com/api/dashboards/14314/revisions/2/download
+          datasource: Prometheus
+        ingress-nginx-loki:
+          url: https://grafana.com/api/dashboards/12559/revisions/11/download
+        argocd:
+          url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+      server:
+        root_url: https://grafana.{{  .Values.global.domain }}
+        enable_gzip: true
+  prometheus:
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      pathType: Prefix
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        # cert-manager.io/common-name: prom-server.rsr.net
+        # nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local:80/oauth2/auth"
+        # nginx.ingress.kubernetes.io/auth-signin: https://auth.rsr.net/oauth2/start
+      hosts:
+        - prometheus.{{ .Values.global.domain }}
+      tls:
+        - hosts:
+            - prometheus.{{ .Values.global.domain }}
+          secretName: prometheus-server-cert-tls
+    prometheusSpec:
+      # image:
+      #   repository: quay.io/prometheus/prometheus
+      #   tag: v2.20.0
+      replicas: 2
+      replicaExternalLabelName: "replica"
+      ruleSelector: { }
+      ruleNamespaceSelector: { }
+      ruleSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: { }
+      serviceMonitorNamespaceSelector: { }
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: { }
+      podMonitorNamespaceSelector: { }
+      podMonitorSelectorNilUsesHelmValues: false
+      retention: 6h
+      enableAdminAPI: true
+      walCompression: true
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: longhorn
+            resources:
+              requests:
+                storage: 10Gi
+      # tolerations:
+      # - key: "arm"
+      #   operator: "Exists"
+      podMetadata:
+        annotations:
+          backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
+  nodeExporter:
+    serviceMonitor:
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: instance
+          action: replace
