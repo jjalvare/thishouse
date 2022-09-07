@@ -1,3 +1,6 @@
 ---
 plugin:
   name: helm-test
+  env:
+    - name: SECRET_DOMAIN
+      value: $SECRET_DOMAIN
