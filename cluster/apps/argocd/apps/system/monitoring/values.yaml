@@ -94,38 +94,13 @@ kube-prometheus-stack:
       tls:
         - hosts:
             - prometheus.{{ .Values.global.domain }}
-          secretName: prometheus-server-cert-tls
+          secretName: prometheus-cert-tls
+  prometheus:
     prometheusSpec:
-      # image:
-      #   repository: quay.io/prometheus/prometheus
-      #   tag: v2.20.0
-      replicas: 2
-      replicaExternalLabelName: "replica"
-      ruleSelector: { }
-      ruleNamespaceSelector: { }
       ruleSelectorNilUsesHelmValues: false
-      serviceMonitorSelector: { }
-      serviceMonitorNamespaceSelector: { }
       serviceMonitorSelectorNilUsesHelmValues: false
-      podMonitorSelector: { }
-      podMonitorNamespaceSelector: { }
       podMonitorSelectorNilUsesHelmValues: false
-      retention: 6h
-      enableAdminAPI: true
-      walCompression: true
-      storageSpec:
-        volumeClaimTemplate:
-          spec:
-            storageClassName: longhorn
-            resources:
-              requests:
-                storage: 10Gi
-      # tolerations:
-      # - key: "arm"
-      #   operator: "Exists"
-      podMetadata:
-        annotations:
-          backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
+      probeSelectorNilUsesHelmValues: false
   nodeExporter:
     serviceMonitor:
       relabelings:
