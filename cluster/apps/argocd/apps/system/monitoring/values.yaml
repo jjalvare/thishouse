@@ -100,9 +100,9 @@ kube-prometheus-stack:
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
-  nodeExporter:
-    serviceMonitor:
-      relabelings:
-        - sourceLabels: [__meta_kubernetes_pod_node_name]
-          targetLabel: instance
-          action: replace
+  # nodeExporter:
+    # serviceMonitor:
+      # relabelings:
+        # - sourceLabels: [__meta_kubernetes_pod_node_name]
+          # targetLabel: instance
+          # action: replace
