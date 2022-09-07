@@ -19,7 +19,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/appName: Grafana
         hajimari.io/icon: chart-bar
-        - &host grafana.{{ .Values.env.domain }}
+        - &host grafana.{{ .Values.env.domain | quote }}
       tls:
         - secretName: grafana-cert-tls
           hosts:
@@ -74,7 +74,7 @@ kube-prometheus-stack:
       analytics:
         check_for_updates: false
       server:
-        root_url: https://grafana.{{  .Values.env.domain }}
+        root_url: https://grafana.{{  .Values.env.domain | quote }}
         enable_gzip: true
   prometheus:
 
@@ -89,10 +89,10 @@ kube-prometheus-stack:
         # nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local:80/oauth2/auth"
         # nginx.ingress.kubernetes.io/auth-signin: https://auth.rsr.net/oauth2/start
       hosts:
-        - prometheus.{{ .Values.env.domain }}
+        - prometheus.{{ .Values.env.domain | quote }}
       tls:
         - hosts:
-            - prometheus.{{ .Values.env.domain }}
+            - prometheus.{{ .Values.env.domain | quote }}
           secretName: prometheus-server-cert-tls
     prometheusSpec:
       # image:
