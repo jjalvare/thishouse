@@ -10,6 +10,8 @@ kube-prometheus-stack:
       size: 1Gi
     admin:
       existingSecret: grafana
+      userKey: "admin-user"
+      passwordKey: "admin-password"
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -23,10 +25,10 @@ kube-prometheus-stack:
         - secretName: grafana-cert-tls
           hosts:
             - grafana.{{ .Values.global.domain }}
-    additionalDataSources:
-      - name: Loki
-        type: loki
-        url: http://loki.loki:3100
+    # additionalDataSources:
+      # - name: Loki
+        # type: loki
+        # url: http://loki.loki:3100
     sidecar:
       datasources:
         enabled: true
