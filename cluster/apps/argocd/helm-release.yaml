@@ -38,6 +38,7 @@ spec:
         secrets,
         https
     server:
+      replicas: 2
       logLevel: "debug"
       extraArgs:
         - --insecure
