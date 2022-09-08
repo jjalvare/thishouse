@@ -30,18 +30,18 @@ kube-prometheus-stack:
       # - name: Loki
         # type: loki
         # url: http://loki.loki:3100
-    sidecar:
-      datasources:
-        enabled: true
-        searchNamespace: ALL
-      dashboards:
-        enabled: true
-        searchNamespace: ALL
-        folderAnnotation: grafana_folder
-        provider:
-          foldersFromFilesStructure: true
-          disableDeletion: true
-          allowUiUpdates: true
+    # sidecar:
+      # datasources:
+        # enabled: true
+        # searchNamespace: ALL
+      # dashboards:
+        # enabled: true
+        # searchNamespace: ALL
+        # folderAnnotation: grafana_folder
+        # provider:
+          # foldersFromFilesStructure: true
+          # disableDeletion: true
+          # allowUiUpdates: true
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
