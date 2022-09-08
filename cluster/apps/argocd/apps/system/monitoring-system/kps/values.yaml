@@ -1,6 +1,7 @@
 # yamllint disable-file
 kube-prometheus-stack:
   grafana:
+    replicas: 2
     fullnameOverride: grafana
     defaultDashboardsTimezone: America/Chicago
     persistence:
@@ -78,6 +79,7 @@ kube-prometheus-stack:
         root_url: https://grafana.{{ .Values.global.domain }}
         enable_gzip: true
   prometheus:
+    replicas: 2
     #
     ingress:
       enabled: true
