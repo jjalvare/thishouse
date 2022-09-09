@@ -7,15 +7,15 @@ vault:
     dataStorage:
       storageClass: longhorn
       size: 1Gi
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hosts:
-        - host: vault.{{ .Values.global.domain }}
-      tls:
-        - hosts:
-            - vault.{{ .Values.global.domain }}
-          secretName: null
+    # ingress:
+      # enabled: true
+      # ingressClassName: nginx
+      # hosts:
+        # - host: vault.{{ .Values.global.domain }}
+      # tls:
+        # - hosts:
+            # - vault.{{ .Values.global.domain }}
+          # secretName: null
     extraInitContainers:
       - name: vault-bootstrap
         image: ghcr.io/spirkaa/vault-bootstrap:latest
