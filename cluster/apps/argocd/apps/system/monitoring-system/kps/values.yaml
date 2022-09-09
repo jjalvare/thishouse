@@ -30,18 +30,18 @@ kube-prometheus-stack:
       # - name: Loki
         # type: loki
         # url: http://loki.loki:3100
-    # sidecar:
-      # datasources:
-        # enabled: true
-        # searchNamespace: ALL
-      # dashboards:
-        # enabled: true
-        # searchNamespace: ALL
-        # folderAnnotation: grafana_folder
-        # provider:
-          # foldersFromFilesStructure: true
-          # disableDeletion: true
-          # allowUiUpdates: true
+    sidecar:
+      datasources:
+        enabled: true
+        searchNamespace: ALL
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+        folderAnnotation: grafana_folder
+        provider:
+          foldersFromFilesStructure: true
+          disableDeletion: true
+          allowUiUpdates: true
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -86,9 +86,8 @@ kube-prometheus-stack:
       ingressClassName: nginx
       pathType: Prefix
       annotations:
-        kubernetes.io/ingress.class: "nginx"
         cert-manager.io/cluster-issuer: letsencrypt-production
-        # cert-manager.io/common-name: prometheus.{{ .Values.global.domain }}
+        cert-manager.io/common-name: prometheus.{{ .Values.global.domain }}
         # nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local:80/oauth2/auth"
         # nginx.ingress.kubernetes.io/auth-signin: https://auth.rsr.net/oauth2/start
       hosts:
