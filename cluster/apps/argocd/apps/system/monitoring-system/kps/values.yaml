@@ -76,8 +76,16 @@ kube-prometheus-stack:
       analytics:
         check_for_updates: false
       server:
-        # root_url: https://grafana.{{ .Values.global.domain }}
+        root_url: https://grafana.{{ .Values.global.domain }}
         enable_gzip: true
+      users:
+        viewers_can_edit: false
+      auth:
+        disable_login_form: false
+        disable_signout_menu: false
+      auth.anonymous:
+        enabled: true
+        org_role: Viewer
   prometheus:
     replicas: 2
     #
