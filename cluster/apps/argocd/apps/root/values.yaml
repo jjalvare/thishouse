@@ -24,6 +24,12 @@ stacks:
     path: "cluster/apps/argocd/apps/system"
     selfHeal: true
     prune: true
+  - name: apps
+    enabled: true
+    targetRevision: main
+    path: "cluster/apps/argocd/apps/apps"
+    selfHeal: true
+    prune: true
   - name: platform
     path: "cluster/apps/argocd/apps/platform"
     selfHeal: true
