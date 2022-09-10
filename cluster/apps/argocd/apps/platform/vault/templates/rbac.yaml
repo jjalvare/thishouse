@@ -4,7 +4,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: vault-bootstrap
-  namespace: {{ .Release.namespace }}
+  namespace: platform
 rules:
 - apiGroups:
   - ""
@@ -45,11 +45,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: role-vault-bootstrap-binding
-  namespace: {{ .Release.namespace }}
+  namespace: platform
 subjects:
 - kind: ServiceAccount
   name: vault
-  namespace: {{ .Release.namespace }}
+  namespace: platform
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -67,9 +67,9 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: vault-external-secrets
-  namespace: {{ .Release.namespace }}
+  namespace: platform
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: system:auth-delegator
-  namespace: {{ .Release.namespace }}
+  namespace: platform
