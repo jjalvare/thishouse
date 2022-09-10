@@ -51,7 +51,7 @@ tasks:
   pods:
     desc: List all the pods in your cluster
     cmds:
-      - kubectl get pods {{.CLI_ARGS | default "-A"}}
+      - kubectl get pods {{.CLI_ARGS | default "-A -o wide"}}
 
   kustomizations:
     desc: List all the kustomizations in your cluster
