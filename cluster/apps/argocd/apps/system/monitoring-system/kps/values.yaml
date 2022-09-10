@@ -9,10 +9,10 @@ kube-prometheus-stack:
       type: statefulset
       storageClassName: longhorn
       size: 1Gi
-    admin:
-      existingSecret: grafana
-      userKey: "admin-user"
-      passwordKey: "admin-password"
+    # admin:
+      # existingSecret: grafana
+      # userKey: "admin-user"
+      # passwordKey: "admin-password"
     ingress:
       enabled: true
       ingressClassName: nginx
