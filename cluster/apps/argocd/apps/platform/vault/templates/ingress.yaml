@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vault
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
+    hajimari.io/enable: 'false'
+spec:
+  ingressClassName: nginx
+  rules:
+  # yamllint disable-line
+  - host: &host vault.{{ .Values.global.domain }}
+    http:
+      paths:
+      # yamllint disable-line
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: vault
+            port:
+              number: 8200
+  tls:
+  # yamllint disable-line
+  - hosts:
+    # yamllint disable-line
+    - *host
+    secretName: vault-cert-tls
