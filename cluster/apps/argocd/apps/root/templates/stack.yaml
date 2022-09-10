@@ -22,7 +22,7 @@ spec:
     spec:
       destination:
         name: in-cluster
-        namespace: '{{ $stack.namespace }}'
+        namespace: '{{ $stack.name }}'
       project: default
       source:
         repoURL: {{ $.Values.repo.url }}
