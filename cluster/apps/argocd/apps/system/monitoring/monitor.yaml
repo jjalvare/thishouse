@@ -12,10 +12,10 @@ spec:
   source:
     repoURL: https://github.com/jjalvare/thishouse.git
     targetRevision: main
-    path: cluster/apps/argocd/apps/system/monitoring-system/kps
+    path: cluster/apps/argocd/apps/system/monitoring/kps
   destination:
     name: in-cluster
-    namespace: monitoring-system
+    namespace: {{ .Release.namespace }}
   syncPolicy:
     automated:
       prune: true
