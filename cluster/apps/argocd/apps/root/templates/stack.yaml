@@ -12,7 +12,7 @@ spec:
         repoURL: {{ $.Values.repo.url }}
         revision: {{ $.Values.repo.revision }}
         directories:
-          - path: "{{ $stack.path }}/*"
+          - path: "{{ $stack.path }}/**"
   template:
     metadata:
       name: '{{ `{{path.basename}}` }}'
