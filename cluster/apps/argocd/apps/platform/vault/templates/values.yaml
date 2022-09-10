@@ -11,10 +11,10 @@ vault:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - host: "vault.{{ .Values.global.domain }}"
+        - host: vault.{{ .Values.global.domain | quote }}
       tls:
         - hosts:
-            - "vault.{{ .Values.global.domain }}"
+            - vault.{{ .Values.global.domain | quote }}
           secretName: vault-cert-tls
     extraInitContainers:
       - name: vault-bootstrap
