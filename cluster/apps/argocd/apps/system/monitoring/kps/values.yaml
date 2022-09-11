@@ -56,6 +56,13 @@ kube-prometheus-stack:
               path: /var/lib/grafana/dashboards/default
     dashboards:
       default:
+        home-assistant:
+          url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/grafana/dashboards/home_assistant.json
+          datasource: home_assistant
+        internet-speed:
+          gnetId: 13665
+          revision: 1
+          datasource: Prometheus
         longhorn:
           url: https://grafana.com/api/dashboards/13032/revisions/6/download
           datasource: Prometheus
