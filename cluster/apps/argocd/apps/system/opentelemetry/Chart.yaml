@@ -1,0 +1,10 @@
+apiVersion: v2
+appVersion: "1.0"
+description: Open telemetry layer
+name: opentelemetry
+version: 0.2.0
+
+dependencies:
+  - name: common
+    version: 2.0.2
+    repository: https://charts.bitnami.com/bitnami
