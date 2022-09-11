@@ -91,6 +91,7 @@ metadata:
   labels:
     app.kubernetes.io/name: monitorrent
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
     kubernetes.io/tls-acme: "true"
 spec:
   ingressClassName: nginx

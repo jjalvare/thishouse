@@ -9,6 +9,7 @@ prowlarr:
       enabled: true
       ingressClassName: nginx
       annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
         kubernetes.io/tls-acme: "true"
       hosts:
         - host: &host prowlarr.{{ $.Values.global.domain }}
