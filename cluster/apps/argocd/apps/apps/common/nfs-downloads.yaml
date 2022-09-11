@@ -5,7 +5,7 @@ metadata:
   name: nfs-downloads-pv
 spec:
   capacity:
-    storage: 1Mi
+    storage: 20Gi
   storageClassName: nfs
   accessModes:
     - ReadWriteMany
