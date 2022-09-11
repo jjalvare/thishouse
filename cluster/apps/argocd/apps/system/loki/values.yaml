@@ -1,9 +1,9 @@
 loki-stack:
   loki:
     fullnameOverride: loki
-    isDefault: false
-    config:
-      existingSecret: loki
+    # isDefault: false
+    # config:
+      # existingSecret: loki
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -16,7 +16,7 @@ loki-stack:
       tls:
         - hosts:
             - *host
-          secretName: null
+          secretName: loki-cert-tls
     persistence:
       enabled: true
       storageClassName: longhorn
