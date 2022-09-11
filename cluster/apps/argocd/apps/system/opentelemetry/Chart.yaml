@@ -5,6 +5,6 @@ name: opentelemetry
 version: 0.2.0
 
 dependencies:
-  - name: common
-    version: 2.0.2
-    repository: https://charts.bitnami.com/bitnami
+  - name: opentelemetry-collector
+    version: 0.30.0
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
