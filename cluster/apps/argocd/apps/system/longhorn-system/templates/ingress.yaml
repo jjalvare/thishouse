@@ -15,7 +15,7 @@ metadata:
     app.kubernetes.io/version: v1.3.1
     argocd.argoproj.io/instance: longhorn-system
   name: longhorn-ingress
-  namespace: longhorn-system
+  namespace: system
 spec:
   ingressClassName: nginx
   rules:
