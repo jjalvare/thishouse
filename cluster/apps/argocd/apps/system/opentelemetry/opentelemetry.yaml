@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: opentelemetry
-  namespace: {{ .Release.namespace }}
+  namespace: system
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   finalizers:
@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   destination:
     name: in-cluster
-  namespace: {{ .Release.namespace }}
+  namespace: system
   source:
     chart: opentelemetry-collector
     repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
