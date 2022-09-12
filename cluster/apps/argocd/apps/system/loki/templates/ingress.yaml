@@ -1,0 +1,28 @@
+# yamllint disable-file
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  labels:
+    app: loki
+  name: loki
+  namespace: system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: 'loki.{{ $.Values.global.domain }}'
+      http:
+        paths:
+          - backend:
+              service:
+                name: loki
+                port:
+                  number: 3100
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - 'loki.{{ $.Values.global.domain }}'
+      secretName: loki-cert-tls
