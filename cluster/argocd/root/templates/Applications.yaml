@@ -1,0 +1,42 @@
+# yamllint disable-file
+{{- range $index, $stack := .Values.applications }}
+{{- if $stack.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: $stack.name
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ $stack.project }}
+  syncPolicy:
+    automated:
+      prune: {{ $stack.prune }}
+      selfHeal: {{ $stack.selfHeal }}
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      jsonPointers:
+        - /spec/syncPolicy/automated
+  destination:
+    name: in-cluster
+    namespace: {{ $stack.namespace }}
+  source:
+    path: {{ $stack.path }}
+    repoURL: {{ .Values.global.repoURL }}
+    targetRevision: "{{ .$stack.targetRevision }}"
+    helm:
+      valueFiles:
+      - values-{{ .Values.global.env }}.yaml
+      values: |
+        argocd:
+          targetRevision: {{ $stack.targetRevision }}
+        global:
+          domain: {{ .Values.global.domain }}
+          repoURL: {{ .Values.global.repoURL }}
+          env: {{ .Values.global.env }}
+{{- end }}
+{{- end }}
