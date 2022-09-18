@@ -177,7 +177,7 @@ spec:
             server: https://kubernetes.default.svc
           project: root
           source:
-            path: cluster/apps/argocd/root
+            path: cluster/argocd/root
             repoURL: https://github.com/jjalvare/thishouse.git
             targetRevision: HEAD
           syncPolicy:

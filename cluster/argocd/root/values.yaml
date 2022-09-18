@@ -21,7 +21,7 @@ applications:
   - name: apps
     enabled: true
     targetRevision: main
-    path: "cluster/apps/argocd/applications"
+    path: "cluster/argocd/applications"
     selfHeal: true
     prune: true
     project: apps
@@ -30,11 +30,11 @@ applicationSet:
   - name: system
     enabled: true
     targetRevision: main
-    path: "cluster/apps/argocd/system"
+    path: "cluster/argocd/system"
     selfHeal: true
     prune: true
   - name: platform
-    path: "cluster/apps/argocd/platform"
+    path: "cluster/argocd/platform"
     selfHeal: true
     prune: true
     enabled: true
