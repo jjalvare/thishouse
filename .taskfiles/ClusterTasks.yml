@@ -16,6 +16,10 @@ tasks:
       - kubectl apply --kustomize {{.CLUSTER_DIR}}/flux/flux-system/
       - sleep 30
       - task: reconcile
+        ignore_error: true
+      - sleep 30
+      - task: reconcile
+        ignore_error: true
       - task: argocd-secrets
     preconditions:
       - sh: test -f {{.SOPS_AGE_KEY_FILE}}
