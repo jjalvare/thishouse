@@ -1,5 +1,5 @@
 # yamllint disable-file
-{{- range $index, $stack := .Values.stacks }}
+{{- range $index, $stack := .Values.applicationSet }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet

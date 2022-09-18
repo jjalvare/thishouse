@@ -65,9 +65,9 @@ spec:
                 - 'sh'
                 - '-c'
                 - |
-                  echo $(date) >> /custom-tools-logs/log.txt 2>&1
+                  echo $files >> /custom-tools-logs/log.txt
                   if test -e Chart.yaml; then
-                    helm dependency build
+                    helm dependency build || true
                   fi
             generate:
               command:
@@ -177,7 +177,7 @@ spec:
             server: https://kubernetes.default.svc
           project: root
           source:
-            path: cluster/apps/argocd/apps/root
+            path: cluster/apps/argocd/root
             repoURL: https://github.com/jjalvare/thishouse.git
             targetRevision: HEAD
           syncPolicy:
@@ -247,6 +247,36 @@ spec:
           additionalLabels: {}
           additionalAnnotations: {}
           description: Platform Project
+          sourceRepos:
+            - "*"
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+          orphanedResources:
+            warn: false
+        - name: applications
+          namespace: argocd
+          additionalLabels: {}
+          additionalAnnotations: {}
+          description: Applications Project
+          sourceRepos:
+            - "*"
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+          orphanedResources:
+            warn: false
+        - name: apps
+          namespace: argocd
+          additionalLabels: {}
+          additionalAnnotations: {}
+          description: Applications Project
           sourceRepos:
             - "*"
           destinations:

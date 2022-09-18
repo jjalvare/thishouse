@@ -17,21 +17,24 @@ system:
 platform:
   enabled: true
   revision: main
-stacks:
-  - name: system
-    enabled: true
-    targetRevision: main
-    path: "cluster/apps/argocd/apps/system"
-    selfHeal: true
-    prune: true
+applications:
   - name: apps
     enabled: true
     targetRevision: main
-    path: "cluster/apps/argocd/apps/apps"
+    path: "cluster/apps/argocd/applications"
+    selfHeal: true
+    prune: true
+    project: apps
+    namespace: apps
+applicationSet:
+  - name: system
+    enabled: true
+    targetRevision: main
+    path: "cluster/apps/argocd/system"
     selfHeal: true
     prune: true
   - name: platform
-    path: "cluster/apps/argocd/apps/platform"
+    path: "cluster/apps/argocd/platform"
     selfHeal: true
     prune: true
     enabled: true
