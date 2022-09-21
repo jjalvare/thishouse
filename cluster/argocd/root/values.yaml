@@ -1,9 +1,11 @@
 ---
-repoURL: https://github.com/jjalvare/thishouse
-env: "prod"
+# repoURL: https://github.com/jjalvare/thishouse
+# env: "prod"
 namespace: argocd
 domain: ""
 global:
+  repoURL: https://github.com/jjalvare/thishouse
+  env: "prod"
   domain: ""
 spec:
   destination:

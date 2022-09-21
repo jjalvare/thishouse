@@ -19,8 +19,8 @@ spec:
   ignoreDifferences:
     - group: argoproj.io
       kind: Application
-      jsonPointers:
-        - /spec/syncPolicy/automated
+      # jsonPointers:
+        # - /spec/syncPolicy/automated
   destination:
     name: in-cluster
     namespace: {{ $stack.namespace }}
