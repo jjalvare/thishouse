@@ -27,7 +27,7 @@ spec:
   source:
     path: {{ $stack.path }}
     repoURL: {{ .Values.global.repoURL }}
-    targetRevision: "{{ .$stack.targetRevision }}"
+    targetRevision: "{{ $.stack.targetRevision }}"
     helm:
       valueFiles:
       - values-{{ .Values.global.env }}.yaml
