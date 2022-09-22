@@ -26,7 +26,7 @@ applications:
     path: "cluster/argocd/applications"
     selfHeal: true
     prune: true
-    project: apps
+    project: default
     namespace: apps
 applicationSet:
   - name: system
