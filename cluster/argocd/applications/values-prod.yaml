@@ -1,0 +1,38 @@
+project: apps
+namespace: apps
+syncWave: "5"
+homeassistant:
+  enabled: false
+  chart: home-assistant
+  project: apps
+  releaseName: ombi
+  targetRevision: 13.4.2
+  repoURL: https://k8s-at-home.com/charts/
+monitorrent:
+  enabled: false
+jackett:
+  enabled: false
+ombi:
+  enabled: true
+  chart: ombi
+  project: apps
+  targetRevision: 11.5.2
+  releaseName: ombi
+  valuesFiles: ombi-values.yaml
+  repoURL: https://k8s-at-home.com/charts/
+lidarr:
+  enabled: false
+sonarr:
+  enabled: false
+bazarr:
+  enabled: false
+jellyfin:
+  enabled: false
+prowlarr:
+  enabled: false
+portainer:
+  enabled: false
+radarr:
+  enabled: false
+bazar:
+  enabled: false

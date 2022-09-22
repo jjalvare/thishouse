@@ -1,0 +1,25 @@
+# yamllint disable-file
+{{- if .Values.ombi.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.ombi.project }}
+  namespace: {{ .Values.ombi.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ .Values.syncWave }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: in-cluster
+    namespace: {{ .Values.namespace }}
+  source:
+    chart: {{ .Values.ombi.Chart }}
+    repoURL: {{ .Values.ombi.repoURL }}
+    targetRevision: {{ .Values.ombi.targetRevision }}
+    helm:
+      releaseName: {{ .Values.ombi.releeaseName }}
+      valuesFiles:
+        - {{ .Values.ombi.valuesFile }}
+{{- end }}

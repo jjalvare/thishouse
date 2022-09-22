@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-downloads-pv
+spec:
+  capacity:
+    storage: 20Gi
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.1.44
+    path: /Public/nfs-pvc
+  mountOptions:
+    - noatime
+    - nodiratime
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-downloads-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+  storageClassName: nfs
+  volumeName: nfs-downloads-pv
