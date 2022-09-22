@@ -26,17 +26,17 @@ spec:
     namespace: {{ $stack.namespace }}
   source:
     path: {{ $stack.path }}
-    repoURL: {{ .Values.global.repoURL }}
-    targetRevision: "{{ $.stack.targetRevision }}"
+    repoURL: {{ $.Values.global.repoURL }}
+    targetRevision: "{{ $stack.targetRevision }}"
     helm:
       valueFiles:
-      - values-{{ .Values.global.env }}.yaml
+      - values-{{ $.Values.global.env }}.yaml
       values: |
         argocd:
           targetRevision: {{ $stack.targetRevision }}
         global:
-          domain: {{ .Values.global.domain }}
-          repoURL: {{ .Values.global.repoURL }}
-          env: {{ .Values.global.env }}
+          domain: {{ $.Values.global.domain }}
+          repoURL: {{ $.Values.global.repoURL }}
+          env: {{ $.Values.global.env }}
 {{- end }}
 {{- end }}
